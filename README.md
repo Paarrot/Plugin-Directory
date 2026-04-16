@@ -1,124 +1,55 @@
 # Plugin Directory
 
-A simple git-based plugin registry for the Plugin Host system.
+Git-based plugin registry for Plugin Host. No server needed - just JSON files.
 
-## 📦 What This Is
+## How to Submit a Plugin
 
-A collection of JSON files that describe available plugins. The Plugin Host fetches these definitions directly from the git repository.
+### 1. Create your plugin JSON file
 
-## 🚀 How It Works
+Filename format: `plugins/{username}-{plugin-name}.json`
 
-1. Plugin authors create a JSON file in `plugins/` directory
-2. Submit via Pull Request
-3. Gitea Actions validate the submission
-4. If valid, maintainer merges the PR
-5. Plugin Host automatically discovers the new plugin
-
-## 📝 Submitting a Plugin
-
-### 1. Fork this repository
-
-### 2. Create your plugin definition
-
-Create `plugins/your-plugin-id.json`:
+Example: `plugins/litruv-example-plugin.json`
 
 ```json
 {
-  "id": "your-plugin-id",
-  "name": "Your Plugin Name",
+  "id": "litruv-example-plugin",
+  "name": "Example Plugin",
   "version": "1.0.0",
   "description": "What your plugin does",
-  "author": "your-gitea-username",
-  "repository": "http://synbox.ruv.wtf:8418/you/your-plugin.git",
-  "downloadUrl": "http://synbox.ruv.wtf:8418/you/your-plugin/archive/main.zip",
-  "homepage": "http://synbox.ruv.wtf:8418/you/your-plugin",
-  "tags": ["category", "keywords"]
+  "author": "litruv",
+  "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example.git",
+  "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
+  "tags": ["example"]
 }
 ```
 
-**Required fields:**
-- `id` - Must match filename (without .json)
-- `name` - Display name
-- `version` - Semantic version (X.Y.Z)
-- `description` - Brief description
-- `author` - Your Gitea username (must match PR creator)
-- `repository` - Git repository URL
+**Required fields:** `id`, `name`, `version`, `description`, `author`, `repository`
 
-### 3. Create Pull Request
+**Important:**
+- Filename must start with your username: `{username}-`
+- Plugin `id` must match filename (without .json)
+- `author` field must match your Gitea username
 
-Gitea Actions will automatically validate:
-- ✅ File is in `plugins/` directory
-- ✅ File is valid JSON
-- ✅ All required fields present
-- ✅ ID matches filename
-- ✅ Author matches your username
-- ✅ Version format is valid
-- ✅ URLs are valid
+### 2. Create a Pull Request
 
-**Note:** Don't edit `plugins/index.json` - it's automatically generated when your PR is merged!
+Push your branch and create a PR. Gitea Actions will automatically:
+- Validate your submission
+- Post approval comment if valid
+- Auto-merge and update the plugin index
 
-### 4. Merge
+That's it! Your plugin will be available immediately after merge.
 
-If validation passes, maintainer will merge your PR. The `index.json` file will be automatically updated.
+## Updating or Removing
 
-## 🗑️ Removing Your Plugin
+- **Update:** Create PR with modified JSON (version bump required)
+- **Remove:** Create PR deleting your plugin JSON file
 
-Only plugin authors can remove their own plugins:
+You can only modify/remove plugins you authored.
 
-1. Fork this repository
-2. Delete `plugins/your-plugin-id.json`
-3. Create Pull Request
+## Plugin Discovery
 
-## 🔄 Updating Your Plugin
-
-1. Fork this repository
-2. Edit `plugins/your-plugin-id.json`
-3. Update version number and any other fields
-4. Create Pull Request
-
-## 📋 Plugin Schema
-
-See [SCHEMA.md](SCHEMA.md) for full schema documentation.
-
-## 🔍 Validation Rules
-
-PRs must:
-- Only modify files in `plugins/` directory
-- Only modify `.json` files
-- Have valid JSON
-- Match the plugin schema
-- Have author field matching PR creator
-- Have plugin ID matching filename
-
-## 🏗️ Directory Structure
-
+Plugin Host fetches from:
 ```
-Plugin-Directory/
-├── plugins/
-│   ├── example-plugin.json
-│   ├── your-plugin.json
-│   └── ...
-├── .gitea/
-│   ├── workflows/
-│   │   └── validate-pr.yml
-│   └── scripts/
-│       └── validate-pr.js
-└── README.md
+http://synbox.ruv.wtf:8418/litruv/Plugin-Directory/raw/branch/main/plugins/index.json
 ```
 
-## 🔗 Plugin Host Integration
-
-The Plugin Host fetches plugin definitions from:
-```
-http://synbox.ruv.wtf:8418/litruv/Plugin-Directory/raw/branch/main/plugins/
-```
-
-No server needed - just static JSON files served by Gitea!
-
-## 📖 Example Plugins
-
-- [example-plugin.json](plugins/example-plugin.json) - Reference implementation
-
-## License
-
-MIT
