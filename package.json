@@ -1,0 +1,19 @@
+{
+  "name": "@pluginhost/directory",
+  "version": "1.0.0",
+  "description": "Automated plugin directory with PR validation and auto-merge",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "validate": "node src/validate.js"
+  },
+  "keywords": ["plugin", "directory", "registry"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2"
+  }
+}

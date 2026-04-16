@@ -1,0 +1,12 @@
+{
+  "id": "example-plugin",
+  "name": "Example Plugin",
+  "version": "1.0.0",
+  "description": "An example plugin demonstrating the plugin system capabilities",
+  "author": "litruv",
+  "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example.git",
+  "downloadUrl": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example/archive/main.zip",
+  "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
+  "tags": ["example", "demo"],
+  "addedDate": "2026-04-17T00:00:00.000Z"
+}
