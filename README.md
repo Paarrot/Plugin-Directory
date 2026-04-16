@@ -31,7 +31,6 @@ Example: `plugins/litruv-example-plugin.json`
 **Thumbnail:**
 - Add a `thumbnail.png`, `thumbnail.jpg`, or `thumbnail.gif` file to your plugin repository
 - Max 512x512 pixels, Max 2MB file size
-- URL format: `http://synbox.ruv.wtf:8418/{username}/{repo}/raw/branch/main/thumbnail.png`
 
 **Important:**
 - Filename must start with your username: `{username}-`
