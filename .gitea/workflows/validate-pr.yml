@@ -72,6 +72,15 @@ jobs:
         env:
           PR_FILES_DIR: ../pr/plugins
           
+      - name: Post approval comment
+        if: success()
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ github.token }}" \
+            -H "Content-Type: application/json" \
+            -d '{"body":"✅ **Validation passed!** Auto-merging this pull request.\n\nAll plugin requirements have been met:\n- ✓ Valid plugin schema\n- ✓ Correct filename format\n- ✓ Author verification\n- ✓ Repository URL valid\n\nYour plugin will be available in the directory shortly!"}' \
+            "http://synbox.ruv.wtf:8418/api/v1/repos/litruv/Plugin-Directory/issues/${{ github.event.pull_request.number }}/comments"
+          
       - name: Auto-merge PR
         if: success()
         run: |
