@@ -27,7 +27,12 @@ jobs:
         run: |
           node .gitea/scripts/validate-pr.js "${{ github.event.pull_request.user.login }}" "${{ steps.changed-files.outputs.files }}"
           
-      - name: Auto-approve if valid
+      - name: Auto-merge PR
         if: success()
         run: |
-          echo "✅ Validation passed - PR is ready to merge"
+          echo "✅ Validation passed - Auto-merging PR"
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            "${{ github.api_url }}/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge" \
+            -d '{"merge_method":"squash","commit_title":"${{ github.event.pull_request.title }}","commit_message":"Auto-merged after validation","delete_branch_after_merge":true}'
