@@ -160,12 +160,16 @@ for (const file of changedFiles) {
     continue;
   }
   
+  // Adjust file paths based on working directory
+  const prFilePath = process.env.PR_FILES_DIR ? `${process.env.PR_FILES_DIR}/${file.replace('plugins/', '')}` : file;
+  const baseFilePath = file;
+  
   // Check if file was added or removed
   let isAdded = false;
   let isRemoved = false;
   
   try {
-    await access(file);
+    await access(prFilePath);
     isAdded = true;
   } catch {
     isRemoved = true;
@@ -174,7 +178,7 @@ for (const file of changedFiles) {
   if (isAdded) {
     // Validate added/modified plugin
     try {
-      const content = await readFile(file, 'utf-8');
+      const content = await readFile(prFilePath, 'utf-8');
       const plugin = JSON.parse(content);
       
       // Check if this plugin already exists on main
@@ -182,7 +186,7 @@ for (const file of changedFiles) {
       let originalAuthor = null;
       
       try {
-        const originalContent = await readFile(`../base/${file}`, 'utf-8');
+        const originalContent = await readFile(baseFilePath, 'utf-8');
         const originalPlugin = JSON.parse(originalContent);
         isModification = true;
         originalAuthor = originalPlugin.author;
@@ -243,7 +247,7 @@ for (const file of changedFiles) {
   } else if (isRemoved) {
     // For removed files, check the original author from main branch
     try {
-      const originalContent = await readFile(`../base/${file}`, 'utf-8');
+      const originalContent = await readFile(baseFilePath, 'utf-8');
       const originalPlugin = JSON.parse(originalContent);
       
       if (originalPlugin.author !== prAuthor) {
