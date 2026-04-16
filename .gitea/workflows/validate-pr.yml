@@ -31,8 +31,11 @@ jobs:
         if: success()
         run: |
           echo "✅ Validation passed - Auto-merging PR"
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            "http://synbox.ruv.wtf:8418/api/v1/repos/litruv/Plugin-Directory/pulls/${{ github.event.pull_request.number }}/merge" \
-            -d '{"Do":"squash","MergeTitleField":"${{ github.event.pull_request.title }}","MergeMessageField":"Auto-merged after validation","delete_branch_after_merge":true}'
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git fetch origin ${{ github.event.pull_request.head.ref }}
+          git checkout main
+          git merge --squash origin/${{ github.event.pull_request.head.ref }}
+          git commit -m "${{ github.event.pull_request.title }}"
+          git push origin main
+          git push origin --delete ${{ github.event.pull_request.head.ref }}
