@@ -26,9 +26,12 @@ Example: `plugins/litruv-example-plugin.json`
 
 **Required fields:** `id`, `name`, `version`, `description`, `author`, `repository`
 
-**Optional fields:** `homepage`, `thumbnail`, `tags`
+**Optional fields:** `homepage`, `thumbnail`, `tags`, `downloadUrl`
 
-**Thumbnail:** Add `thumbnail.png`, `thumbnail.jpg`, or `thumbnail.gif` to your plugin repo (max 512x512, max 2MB)
+**Rules:**
+- All URLs must NOT end with `.git`
+- `repository` and `homepage` should point to your plugin repo (without .git)
+- `thumbnail` must be `thumbnail.png`, `thumbnail.jpg`, or `thumbnail.gif` (max 512x512, max 2MB)
 
 **Important:**
 - Filename must start with your username: `{username}-`
