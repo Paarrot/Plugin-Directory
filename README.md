@@ -28,9 +28,7 @@ Example: `plugins/litruv-example-plugin.json`
 
 **Optional fields:** `homepage`, `thumbnail`, `tags`
 
-**Thumbnail:**
-- Add a `thumbnail.png`, `thumbnail.jpg`, or `thumbnail.gif` file to your plugin repository
-- Max 512x512 pixels, Max 2MB file size
+**Thumbnail:** Add `thumbnail.png`, `thumbnail.jpg`, or `thumbnail.gif` to your plugin repo (max 512x512, max 2MB)
 
 **Important:**
 - Filename must start with your username: `{username}-`
