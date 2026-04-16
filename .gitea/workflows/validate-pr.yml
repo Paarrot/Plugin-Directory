@@ -32,7 +32,7 @@ jobs:
         run: |
           echo "✅ Validation passed - Auto-merging PR"
           curl -X POST \
-            -H "Authorization: token ${{ secrets.GITEA_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
             "http://synbox.ruv.wtf:8418/api/v1/repos/litruv/Plugin-Directory/pulls/${{ github.event.pull_request.number }}/merge" \
             -d '{"Do":"squash","MergeTitleField":"${{ github.event.pull_request.title }}","MergeMessageField":"Auto-merged after validation","delete_branch_after_merge":true}'
