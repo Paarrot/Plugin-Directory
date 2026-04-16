@@ -13,29 +13,13 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
       - name: Generate index.json
-        run: |
-          cd plugins
-          echo '{' > index.json
-          echo '  "version": "1.0.0",' >> index.json
-          echo '  "updatedAt": "'$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")'",' >> index.json
-          echo '  "plugins": [' >> index.json
-          
-          first=true
-          for file in *.json; do
-            if [ "$file" != "index.json" ]; then
-              plugin_id="${file%.json}"
-              if [ "$first" = true ]; then
-                echo "    \"$plugin_id\"" >> index.json
-                first=false
-              else
-                echo ",    \"$plugin_id\"" >> index.json
-              fi
-            fi
-          done | sed '$ s/,$//'
-          
-          echo '  ]' >> index.json
-          echo '}' >> index.json
+        run: node .gitea/scripts/update-index.js
           
       - name: Commit index.json
         run: |
