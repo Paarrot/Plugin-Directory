@@ -1,8 +1,5 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-04-16T17:12:52.584Z",
-  "plugins": [
-    "litruv-example-plugin",
-    "litruv-example-plugin-2"
-  ]
+  "updatedAt": "2026-04-16T17:14:35.921Z",
+  "plugins": []
 }
