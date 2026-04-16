@@ -82,8 +82,8 @@ jobs:
           git config user.name "gitea-actions[bot]"
           git config user.email "gitea-actions[bot]@users.noreply.gitea.io"
           
-          # Set up authenticated remote URL
-          git remote set-url origin "http://oauth2:${{ secrets.AUTO_MERGE_TOKEN }}@synbox.ruv.wtf:8418/litruv/Plugin-Directory.git"
+          # Set up authenticated remote URL using github.token
+          git remote set-url origin "http://oauth2:${{ github.token }}@synbox.ruv.wtf:8418/litruv/Plugin-Directory.git"
           
           # Fetch and merge
           git fetch origin ${{ github.event.pull_request.head.ref }}
