@@ -14,7 +14,16 @@ All plugin submissions are automatically validated before being merged. PRs must
 - ❌ Cannot modify `.gitea/` infrastructure files
 - ⚠️ `plugins/index.json` is auto-generated - don't manually edit it
 
-### 2. File Type
+### 2. File Naming
+- **Filename must be prefixed with your username**
+- Format: `username-plugin-name.json`
+- Example: `litruv-example-plugin.json`
+- ❌ Invalid: `example-plugin.json` (missing username prefix)
+- ❌ Invalid: `otheruser-plugin.json` (wrong username)
+
+This prevents naming conflicts and makes ownership visible.
+
+### 3. File Type
 - ✅ Only `.json` files are allowed in `plugins/` directory
 - ❌ No other file types (images, scripts, etc. must be in plugin repo)
 
@@ -38,7 +47,8 @@ Every plugin JSON must have these fields:
 
 #### `id` (required)
 - Must match the filename
-- Example: `example-plugin.json` → `"id": "example-plugin"`
+- Example: `litruv-example-plugin.json` → `"id": "litruv-example-plugin"`
+- Must include username prefix matching filename
 - Lowercase, hyphens allowed, no spaces
 
 #### `name` (required)
@@ -134,9 +144,15 @@ node .gitea/scripts/validate-pr.js "your-username" "plugins/your-plugin.json"
 **Fix**: Change `"author": "someone"` to `"author": "you"`
 
 ### ❌ ID doesn't match filename
+```litruv-my-plugin.json: Plugin ID "different-name" doesn't match filename "litruv-my-plugin.json"
 ```
-❌ plugins/my-plugin.json: Plugin ID "different-name" doesn't match filename "my-plugin.json"
+**Fix**: Change `"id": "different-name"` to `"id": "litruv-my-plugin"`
+
+### ❌ Filename missing username prefix
 ```
+❌ plugins/my-plugin.json: Filename must start with your username "litruv-" (e.g., "litruv-my-plugin.json")
+```
+**Fix**: Rename file from `my-plugin.json` to `litruv-my-plugin.json` and update the `id` field
 **Fix**: Change `"id": "different-name"` to `"id": "my-plugin"`
 
 ### ❌ Invalid version
@@ -155,17 +171,19 @@ node .gitea/scripts/validate-pr.js "your-username" "plugins/your-plugin.json"
 ```
 ❌ plugins/example-plugin.json: Thumbnail validation failed: Thumbnail dimensions 1024x768 exceed 512x512
 ```
-**Fix**: Resize your thumbnail to 512×512 or smaller
-
-## Example Valid Plugin JSON
-
-```json
-{
-  "id": "example-plugin",
+**Fix**: litruv-example-plugin",
   "name": "Example Plugin",
   "version": "1.0.0",
   "description": "An example plugin demonstrating the plugin system capabilities",
   "author": "litruv",
+  "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example.git",
+  "thumbnail": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example/raw/branch/main/thumbnail.png",
+  "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
+  "tags": ["example", "demo"]
+}
+```
+
+Filename: `litruv-example-plugin.json"author": "litruv",
   "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example.git",
   "thumbnail": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example/raw/branch/main/thumbnail.png",
   "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",

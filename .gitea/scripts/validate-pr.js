@@ -154,6 +154,12 @@ for (const file of changedFiles) {
   
   const pluginId = file.replace('plugins/', '').replace('.json', '');
   
+  // Filename must be prefixed with username
+  if (!pluginId.startsWith(`${prAuthor}-`)) {
+    errors.push(`❌ ${file}: Filename must start with your username "${prAuthor}-" (e.g., "${prAuthor}-my-plugin.json")`);
+    continue;
+  }
+  
   // Check if file was added or removed
   let isAdded = false;
   let isRemoved = false;
