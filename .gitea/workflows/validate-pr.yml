@@ -67,8 +67,8 @@ jobs:
           
       - name: Validate PR (using trusted validation script from main)
         run: |
-          node base/.gitea/scripts/validate-pr.js "${{ github.event.pull_request.user.login }}" "${{ steps.changed-files.outputs.files }}"
-        working-directory: pr
+          cd pr
+          node ../base/.gitea/scripts/validate-pr.js "${{ github.event.pull_request.user.login }}" "${{ steps.changed-files.outputs.files }}"
           
       - name: Auto-merge PR
         if: success()
