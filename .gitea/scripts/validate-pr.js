@@ -223,6 +223,32 @@ for (const file of changedFiles) {
         }
       }
       
+      // Check homepage URL if provided
+      if (plugin.homepage) {
+        try {
+          new URL(plugin.homepage);
+          
+          if (plugin.homepage.endsWith('.git')) {
+            errors.push(`❌ ${file}: Homepage URL should not end with .git: ${plugin.homepage}`);
+          }
+        } catch {
+          errors.push(`❌ ${file}: Invalid homepage URL: ${plugin.homepage}`);
+        }
+      }
+      
+      // Check downloadUrl if provided
+      if (plugin.downloadUrl) {
+        try {
+          new URL(plugin.downloadUrl);
+          
+          if (plugin.downloadUrl.endsWith('.git')) {
+            errors.push(`❌ ${file}: Download URL should not end with .git: ${plugin.downloadUrl}`);
+          }
+        } catch {
+          errors.push(`❌ ${file}: Invalid download URL: ${plugin.downloadUrl}`);
+        }
+      }
+      
       // Check thumbnail if provided (optional)
       if (plugin.thumbnail) {
         try {
