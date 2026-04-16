@@ -171,6 +171,29 @@ for (const file of changedFiles) {
       const content = await readFile(file, 'utf-8');
       const plugin = JSON.parse(content);
       
+      // Check if this plugin already exists on main
+      let isModification = false;
+      let originalAuthor = null;
+      
+      try {
+        const originalContent = await readFile(`../base/${file}`, 'utf-8');
+        const originalPlugin = JSON.parse(originalContent);
+        isModification = true;
+        originalAuthor = originalPlugin.author;
+      } catch {
+        // File doesn't exist on main, this is a new plugin
+        isModification = false;
+      }
+      
+      // If modifying existing plugin, MUST match original author
+      if (isModification) {
+        if (originalAuthor !== prAuthor) {
+          errors.push(`❌ ${file}: Cannot modify plugin owned by "${originalAuthor}" (you are "${prAuthor}")`);
+          continue;
+        }
+        console.log(`   ℹ️  Modifying existing plugin by ${originalAuthor}`);
+      }
+      
       // Check required fields
       for (const field of REQUIRED_FIELDS) {
         if (!plugin[field]) {
@@ -188,7 +211,7 @@ for (const file of changedFiles) {
         errors.push(`❌ ${file}: Invalid version format: ${plugin.version}`);
       }
       
-      // Check author matches PR creator (for new files)
+      // Check author matches PR creator
       if (plugin.author !== prAuthor) {
         errors.push(`❌ ${file}: Author "${plugin.author}" must match PR creator "${prAuthor}"`);
       }
