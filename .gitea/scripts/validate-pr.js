@@ -223,39 +223,25 @@ for (const file of changedFiles) {
         }
       }
       
-      // Check homepage URL if provided (optional)
-      if (plugin.homepage) {
-        try {
-          new URL(plugin.homepage);
-          
-          if (plugin.homepage.endsWith('.git')) {
-            errors.push(`❌ ${file}: Homepage URL should not end with .git: ${plugin.homepage}`);
-          }
-        } catch {
-          errors.push(`❌ ${file}: Invalid homepage URL: ${plugin.homepage}`);
-        }
-      }
-      
-      // Check downloadUrl if provided (optional)
-      if (plugin.downloadUrl) {
-        try {
-          new URL(plugin.downloadUrl);
-          
-          if (plugin.downloadUrl.endsWith('.git')) {
-            errors.push(`❌ ${file}: Download URL should not end with .git: ${plugin.downloadUrl}`);
-          }
-        } catch {
-          errors.push(`❌ ${file}: Invalid download URL: ${plugin.downloadUrl}`);
-        }
-      }
-      
       // Check thumbnail if provided (optional)
       if (plugin.thumbnail) {
         try {
           new URL(plugin.thumbnail);
           
-          if (plugin.thumbnail.endsWith('.git')) {
-            errors.push(`❌ ${file}: Thumbnail URL should not end with .git: ${plugin.thumbnail}`);
+          // Thumbnail must be in the plugin repository
+          const repoBase = plugin.repository;
+          if (!plugin.thumbnail.startsWith(repoBase)) {
+            errors.push(`❌ ${file}: Thumbnail must be hosted in your plugin repository: ${plugin.thumbnail}`);
+          }
+          
+          // Must be named thumbnail.png, thumbnail.jpg, or thumbnail.gif
+          if (!/\/thumbnail\.(png|jpg|gif)$/i.test(plugin.thumbnail)) {
+            errors.push(`❌ ${file}: Thumbnail must be named thumbnail.png, thumbnail.jpg, or thumbnail.gif`);
+          }
+          
+          // Must use raw URL format
+          if (!plugin.thumbnail.includes('/raw/branch/')) {
+            errors.push(`❌ ${file}: Thumbnail must use raw URL format: {repo}/raw/branch/main/thumbnail.png`);
           }
           
           // Validate thumbnail meets requirements
