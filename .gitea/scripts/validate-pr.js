@@ -235,9 +235,21 @@ for (const file of changedFiles) {
     }
     
   } else if (isRemoved) {
-    // For removed files, we can't validate ownership easily in CI
-    // Just track that it was removed  console.log('  7. Thumbnail (optional): PNG/JPG/GIF, max 512x512, max 2MB');    removed.push(pluginId);
-    console.log(`🗑️  Removed: ${pluginId}`);
+    // For removed files, check the original author from main branch
+    try {
+      const originalContent = await readFile(`../base/${file}`, 'utf-8');
+      const originalPlugin = JSON.parse(originalContent);
+      
+      if (originalPlugin.author !== prAuthor) {
+        errors.push(`❌ ${file}: Cannot remove plugin owned by "${originalPlugin.author}" (you are "${prAuthor}")`);
+        continue;
+      }
+      
+      removed.push(pluginId);
+      console.log(`🗑️  Removed: ${pluginId} (owned by ${prAuthor})`);
+    } catch (err) {
+      errors.push(`❌ ${file}: Could not verify ownership for removal: ${err.message}`);
+    }
   }
 }
 
