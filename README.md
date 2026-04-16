@@ -55,9 +55,11 @@ Gitea Actions will automatically validate:
 - ✅ Version format is valid
 - ✅ URLs are valid
 
+**Note:** Don't edit `plugins/index.json` - it's automatically generated when your PR is merged!
+
 ### 4. Merge
 
-If validation passes, maintainer will merge your PR.
+If validation passes, maintainer will merge your PR. The `index.json` file will be automatically updated.
 
 ## 🗑️ Removing Your Plugin
 
