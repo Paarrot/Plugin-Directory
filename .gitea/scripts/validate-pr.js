@@ -104,24 +104,7 @@ const changedFiles = process.argv[3]?.split('\n').filter(f => f.trim()) || [];
 if (!prAuthor) {
   console.error('❌ Error: PR author not provided');
   process.exit(1);
-}// Check thumbnail if provided (optional)
-      if (plugin.thumbnail) {
-        try {
-          new URL(plugin.thumbnail);
-          
-          // Validate thumbnail meets requirements
-          try {
-            const thumbInfo = await validateThumbnail(plugin.thumbnail);
-            console.log(`   ✓ Thumbnail: ${thumbInfo.format} ${thumbInfo.width}x${thumbInfo.height} (${(thumbInfo.size / 1024).toFixed(1)}KB)`);
-          } catch (thumbErr) {
-            errors.push(`❌ ${file}: Thumbnail validation failed: ${thumbErr.message}`);
-          }
-        } catch {
-          errors.push(`❌ ${file}: Invalid thumbnail URL: ${plugin.thumbnail}`);
-        }
-      }
-      
-      
+}
 
 console.log(`\n🔍 Validating PR from: ${prAuthor}`);
 console.log(`📝 Changed files: ${changedFiles.length}`);
@@ -232,6 +215,23 @@ for (const file of changedFiles) {
           new URL(plugin.repository);
         } catch {
           errors.push(`❌ ${file}: Invalid repository URL: ${plugin.repository}`);
+        }
+      }
+      
+      // Check thumbnail if provided (optional)
+      if (plugin.thumbnail) {
+        try {
+          new URL(plugin.thumbnail);
+          
+          // Validate thumbnail meets requirements
+          try {
+            const thumbInfo = await validateThumbnail(plugin.thumbnail);
+            console.log(`   ✓ Thumbnail: ${thumbInfo.format} ${thumbInfo.width}x${thumbInfo.height} (${(thumbInfo.size / 1024).toFixed(1)}KB)`);
+          } catch (thumbErr) {
+            errors.push(`❌ ${file}: Thumbnail validation failed: ${thumbErr.message}`);
+          }
+        } catch {
+          errors.push(`❌ ${file}: Invalid thumbnail URL: ${plugin.thumbnail}`);
         }
       }
       
