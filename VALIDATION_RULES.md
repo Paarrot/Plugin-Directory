@@ -87,9 +87,23 @@ You can include any additional fields for metadata:
 - The `author` field must match your Gitea username
 - This is checked automatically
 
+### Modifying Plugins
+- **You can only modify plugins where the ORIGINAL author (on main branch) is you**
+- Even if you change the `author` field in your PR, validation checks against the original
+- Attempting to modify someone else's plugin will fail validation with:
+  ```
+  ❌ plugins/their-plugin.json: Cannot modify plugin owned by "them" (you are "you")
+  ```
+
 ### Removing Plugins
-- You can only remove plugins where `author` matches your username
-- Attempting to remove someone else's plugin will fail validation
+- **You can only remove plugins where the ORIGINAL author (on main branch) is you**
+- The validation checks the plugin's author from the main branch, not from your PR
+- Attempting to remove someone else's plugin will fail validation with:
+  ```
+  ❌ plugins/their-plugin.json: Cannot remove plugin owned by "them" (you are "you")
+  ```
+
+**Security Note:** All ownership checks use the plugin data from the `main` branch, not from your PR. You cannot bypass ownership by modifying the `author` field.
 
 ## Validation Process
 
