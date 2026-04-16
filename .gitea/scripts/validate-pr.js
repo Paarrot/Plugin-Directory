@@ -228,20 +228,9 @@ for (const file of changedFiles) {
         try {
           new URL(plugin.thumbnail);
           
-          // Thumbnail must be in the plugin repository
-          const repoBase = plugin.repository;
-          if (!plugin.thumbnail.startsWith(repoBase)) {
-            errors.push(`❌ ${file}: Thumbnail must be hosted in your plugin repository: ${plugin.thumbnail}`);
-          }
-          
           // Must be named thumbnail.png, thumbnail.jpg, or thumbnail.gif
           if (!/\/thumbnail\.(png|jpg|gif)$/i.test(plugin.thumbnail)) {
             errors.push(`❌ ${file}: Thumbnail must be named thumbnail.png, thumbnail.jpg, or thumbnail.gif`);
-          }
-          
-          // Must use raw URL format
-          if (!plugin.thumbnail.includes('/raw/branch/')) {
-            errors.push(`❌ ${file}: Thumbnail must use raw URL format: {repo}/raw/branch/main/thumbnail.png`);
           }
           
           // Validate thumbnail meets requirements
