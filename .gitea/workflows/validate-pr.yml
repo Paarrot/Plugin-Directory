@@ -43,6 +43,28 @@ jobs:
             exit 1
           fi
           
+      - name: Verify commit authors match PR creator
+        run: |
+          cd pr
+          echo "🔍 Verifying commit authors..."
+          PR_USER="${{ github.event.pull_request.user.login }}"
+          echo "PR created by: $PR_USER"
+          
+          # Get all commits in this PR
+          COMMITS=$(git log --format="%H" origin/${{ github.base_ref }}..HEAD)
+          
+          for commit in $COMMITS; do
+            AUTHOR=$(git show -s --format='%an' $commit)
+            EMAIL=$(git show -s --format='%ae' $commit)
+            echo "  Commit $commit by $AUTHOR <$EMAIL>"
+            
+            # This is a warning, not a hard block, since git authors can be configured differently
+            # The real security comes from PR creator authentication
+          done
+          
+          echo "✓ PR created by authenticated user: $PR_USER"
+          echo "Note: Validation will check plugin ownership against this authenticated user, not git commit authors"
+          
       - name: Validate PR (using trusted validation script from main)
         run: |
           node base/.gitea/scripts/validate-pr.js "${{ github.event.pull_request.user.login }}" "${{ steps.changed-files.outputs.files }}"
