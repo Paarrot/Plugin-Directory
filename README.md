@@ -19,11 +19,19 @@ Example: `plugins/litruv-example-plugin.json`
   "author": "litruv",
   "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example.git",
   "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
+  "thumbnail": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example/raw/branch/main/thumbnail.png",
   "tags": ["example"]
 }
 ```
 
 **Required fields:** `id`, `name`, `version`, `description`, `author`, `repository`
+
+**Optional fields:** `homepage`, `thumbnail`, `tags`
+
+**Thumbnail requirements:**
+- PNG, JPG, or GIF format
+- Max 512x512 pixels
+- Max 2MB file size
 
 **Important:**
 - Filename must start with your username: `{username}-`
