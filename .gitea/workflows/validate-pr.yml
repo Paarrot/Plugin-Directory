@@ -77,11 +77,22 @@ jobs:
         run: |
           cd pr
           echo "✅ Validation passed - Auto-merging PR"
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          
+          # Configure git with token authentication
+          git config user.name "gitea-actions[bot]"
+          git config user.email "gitea-actions[bot]@users.noreply.gitea.io"
+          
+          # Set up authenticated remote URL
+          git remote set-url origin "http://oauth2:${{ secrets.AUTO_MERGE_TOKEN }}@synbox.ruv.wtf:8418/litruv/Plugin-Directory.git"
+          
+          # Fetch and merge
           git fetch origin ${{ github.event.pull_request.head.ref }}
           git checkout main
           git merge --squash origin/${{ github.event.pull_request.head.ref }}
           git commit -m "${{ github.event.pull_request.title }}"
+          
+          # Push changes
           git push origin main
+          
+          # Delete the PR branch
           git push origin --delete ${{ github.event.pull_request.head.ref }}
