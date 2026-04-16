@@ -1,5 +1,5 @@
 {
-  "id": "example-plugin",
+  "id": "litruv-example-plugin",
   "name": "Example Plugin",
   "version": "1.0.0",
   "description": "An example plugin demonstrating the plugin system capabilities",
