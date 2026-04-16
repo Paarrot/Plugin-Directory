@@ -5,6 +5,7 @@
   "description": "An example plugin demonstrating the plugin system capabilities",
   "author": "litruv",
   "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example.git",
+  "thumbnail": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example/raw/branch/main/thumbnail.png",
   "downloadUrl": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example/archive/main.zip",
   "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
   "tags": ["example", "demo"],

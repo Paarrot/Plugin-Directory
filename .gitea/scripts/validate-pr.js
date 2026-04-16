@@ -10,12 +10,93 @@
  * 4. Plugin ID matches filename
  * 5. Author matches PR creator (for new plugins)
  * 6. Can only remove own plugins
+ * 7. Thumbnail requirements: png/gif/jpg, max 512x512, max 2MB
  */
 
 import { readFile, access } from 'fs/promises';
 import { join } from 'path';
+import https from 'https';
+import http from 'http';
 
 const REQUIRED_FIELDS = ['id', 'name', 'version', 'description', 'author', 'repository'];
+const MAX_THUMBNAIL_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_THUMBNAIL_DIMENSIONS = 512;
+const ALLOWED_IMAGE_FORMATS = ['png', 'gif', 'jpg', 'jpeg'];
+
+async function validateThumbnail(url) {
+  return new Promise((resolve, reject) => {
+    const protocol = url.startsWith('https') ? https : http;
+    
+    protocol.get(url, (res) => {
+      if (res.statusCode !== 200) {
+        return reject(new Error(`Thumbnail URL returned ${res.statusCode}`));
+      }
+      
+      const chunks = [];
+      let size = 0;
+      
+      res.on('data', (chunk) => {
+        chunks.push(chunk);
+        size += chunk.length;
+        
+        if (size > MAX_THUMBNAIL_SIZE) {
+          res.destroy();
+          reject(new Error(`Thumbnail exceeds 2MB limit (${(size / 1024 / 1024).toFixed(2)}MB)`));
+        }
+      });
+      
+      res.on('end', () => {
+        const buffer = Buffer.concat(chunks);
+        
+        // Check image format by magic bytes
+        const isPNG = buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47;
+        const isJPG = buffer[0] === 0xFF && buffer[1] === 0xD8 && buffer[2] === 0xFF;
+        const isGIF = buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46;
+        
+        if (!isPNG && !isJPG && !isGIF) {
+          return reject(new Error('Thumbnail must be PNG, JPG, or GIF format'));
+        }
+        
+        // Check dimensions (simplified check - reads PNG/JPG headers)
+        let width, height;
+        
+        if (isPNG) {
+          width = buffer.readUInt32BE(16);
+          height = buffer.readUInt32BE(20);
+        } else if (isJPG) {
+          // Simplified JPEG dimension reading
+          let offset = 2;
+          while (offset < buffer.length) {
+            if (buffer[offset] !== 0xFF) break;
+            offset++;
+            const marker = buffer[offset];
+            offset++;
+            
+            if (marker === 0xC0 || marker === 0xC2) {
+              height = buffer.readUInt16BE(offset + 3);
+              width = buffer.readUInt16BE(offset + 5);
+              break;
+            }
+            
+            const segmentLength = buffer.readUInt16BE(offset);
+            offset += segmentLength;
+          }
+        } else if (isGIF) {
+          width = buffer.readUInt16LE(6);
+          height = buffer.readUInt16LE(8);
+        }
+        
+        if (width > MAX_THUMBNAIL_DIMENSIONS || height > MAX_THUMBNAIL_DIMENSIONS) {
+          return reject(new Error(`Thumbnail dimensions ${width}x${height} exceed ${MAX_THUMBNAIL_DIMENSIONS}x${MAX_THUMBNAIL_DIMENSIONS}`));
+        }
+        
+        resolve({ width, height, size, format: isPNG ? 'PNG' : isJPG ? 'JPG' : 'GIF' });
+      });
+      
+      res.on('error', reject);
+    }).on('error', reject);
+  });
+}
 
 const prAuthor = process.argv[2];
 const changedFiles = process.argv[3]?.split('\n').filter(f => f.trim()) || [];
@@ -23,7 +104,24 @@ const changedFiles = process.argv[3]?.split('\n').filter(f => f.trim()) || [];
 if (!prAuthor) {
   console.error('❌ Error: PR author not provided');
   process.exit(1);
-}
+}// Check thumbnail if provided (optional)
+      if (plugin.thumbnail) {
+        try {
+          new URL(plugin.thumbnail);
+          
+          // Validate thumbnail meets requirements
+          try {
+            const thumbInfo = await validateThumbnail(plugin.thumbnail);
+            console.log(`   ✓ Thumbnail: ${thumbInfo.format} ${thumbInfo.width}x${thumbInfo.height} (${(thumbInfo.size / 1024).toFixed(1)}KB)`);
+          } catch (thumbErr) {
+            errors.push(`❌ ${file}: Thumbnail validation failed: ${thumbErr.message}`);
+          }
+        } catch {
+          errors.push(`❌ ${file}: Invalid thumbnail URL: ${plugin.thumbnail}`);
+        }
+      }
+      
+      
 
 console.log(`\n🔍 Validating PR from: ${prAuthor}`);
 console.log(`📝 Changed files: ${changedFiles.length}`);
@@ -115,8 +213,7 @@ for (const file of changedFiles) {
     
   } else if (isRemoved) {
     // For removed files, we can't validate ownership easily in CI
-    // Just track that it was removed
-    removed.push(pluginId);
+    // Just track that it was removed  console.log('  7. Thumbnail (optional): PNG/JPG/GIF, max 512x512, max 2MB');    removed.push(pluginId);
     console.log(`🗑️  Removed: ${pluginId}`);
   }
 }
