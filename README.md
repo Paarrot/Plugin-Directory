@@ -17,7 +17,7 @@ Example: `plugins/litruv-example-plugin.json`
   "version": "1.0.0",
   "description": "What your plugin does",
   "author": "litruv",
-  "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example.git",
+  "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
   "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
   "thumbnail": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example/raw/branch/main/thumbnail.png",
   "tags": ["example"]

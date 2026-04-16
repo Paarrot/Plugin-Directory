@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "A third example plugin demonstrating async operations and data storage",
   "author": "litruv",
-  "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example3.git",
+  "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example3",
   "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example3",
   "tags": ["example", "async", "storage"]
 }
