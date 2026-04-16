@@ -213,6 +213,11 @@ for (const file of changedFiles) {
       if (plugin.repository) {
         try {
           new URL(plugin.repository);
+          
+          // Repository URL should not end with .git
+          if (plugin.repository.endsWith('.git')) {
+            errors.push(`❌ ${file}: Repository URL should not end with .git: ${plugin.repository}`);
+          }
         } catch {
           errors.push(`❌ ${file}: Invalid repository URL: ${plugin.repository}`);
         }
