@@ -1,0 +1,50 @@
+name: Update Plugin Index
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'plugins/*.json'
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Generate index.json
+        run: |
+          cd plugins
+          echo '{' > index.json
+          echo '  "version": "1.0.0",' >> index.json
+          echo '  "updatedAt": "'$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")'",' >> index.json
+          echo '  "plugins": [' >> index.json
+          
+          first=true
+          for file in *.json; do
+            if [ "$file" != "index.json" ]; then
+              plugin_id="${file%.json}"
+              if [ "$first" = true ]; then
+                echo "    \"$plugin_id\"" >> index.json
+                first=false
+              else
+                echo ",    \"$plugin_id\"" >> index.json
+              fi
+            fi
+          done | sed '$ s/,$//'
+          
+          echo '  ]' >> index.json
+          echo '}' >> index.json
+          
+      - name: Commit index.json
+        run: |
+          git config user.name "Gitea Actions"
+          git config user.email "actions@gitea.local"
+          git add plugins/index.json
+          if git diff --staged --quiet; then
+            echo "No changes to index.json"
+          else
+            git commit -m "Auto-update plugin index [skip ci]"
+            git push
+          fi

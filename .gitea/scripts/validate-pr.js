@@ -48,6 +48,12 @@ for (const file of changedFiles) {
     continue;
   }
   
+  // Skip index.json - it's auto-generated
+  if (file === 'plugins/index.json') {
+    console.log(`⚠️  Note: index.json is auto-generated, should not be manually edited`);
+    continue;
+  }
+  
   const pluginId = file.replace('plugins/', '').replace('.json', '');
   
   // Check if file was added or removed
