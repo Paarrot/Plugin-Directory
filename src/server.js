@@ -81,6 +81,6 @@ app.post('/webhook', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Plugin Directory server running on port ${port}`);
-  console.log(`Webhook endpoint: http://localhost:${port}/webhook`);
-  console.log(`Plugin list: http://localhost:${port}/plugins`);
+  console.log(`Webhook endpoint: http://litruv-sub:${port}/webhook`);
+  console.log(`Plugin list: http://litruv-sub:${port}/plugins`);
 });

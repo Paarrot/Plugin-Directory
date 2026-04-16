@@ -1,0 +1,33 @@
+name: Validate Plugin PR
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'plugins/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Get changed files
+        id: changed-files
+        run: |
+          echo "files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^plugins/' || echo '')" >> $GITHUB_OUTPUT
+          
+      - name: Validate PR
+        run: |
+          node .gitea/scripts/validate-pr.js "${{ github.event.pull_request.user.login }}" "${{ steps.changed-files.outputs.files }}"
+          
+      - name: Auto-approve if valid
+        if: success()
+        run: |
+          echo "✅ Validation passed - PR is ready to merge"

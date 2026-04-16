@@ -1,8 +1,12 @@
 import crypto from 'crypto';
 import fetch from 'node-fetch';
 import { readdir, readFile } from 'fs/promises';
-import { join } from 'path';
+import { join, dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { Validator } from './ValidatorEnhanced.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * WebhookHandler - Processes Gitea webhooks for automated PR handling
@@ -205,7 +209,7 @@ export class WebhookHandler {
    * List all plugins from the plugins directory
    */
   async listPlugins() {
-    const pluginsDir = './plugins';
+    const pluginsDir = resolve(__dirname, '../plugins');
     const files = await readdir(pluginsDir);
     const plugins = [];
 
@@ -228,7 +232,7 @@ export class WebhookHandler {
    * Get a specific plugin
    */
   async getPlugin(pluginId) {
-    const pluginsDir = './plugins';
+    const pluginsDir = resolve(__dirname, '../plugins');
     const filePath = join(pluginsDir, `${pluginId}.json`);
     
     try {
