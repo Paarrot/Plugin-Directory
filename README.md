@@ -12,14 +12,14 @@ Example: `plugins/litruv-example-plugin.json`
 
 ```json
 {
-  "id": "litruv-example-plugin",
+  "id": "yourusername-example-plugin",
   "name": "Example Plugin",
   "version": "1.0.0",
   "description": "What your plugin does",
-  "author": "litruv",
-  "repository": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
-  "homepage": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example",
-  "thumbnail": "http://synbox.ruv.wtf:8418/litruv/Plugin-Example/raw/branch/main/thumbnail.png",
+  "author": "yourusername",
+  "repository": "https://github.com/yourusername/Plugin-Example",
+  "homepage": "https://github.com/yourusername/Plugin-Example",
+  "thumbnail": "https://raw.githubusercontent.com/yourusername/Plugin-Example/main/thumbnail.png",
   "tags": ["example"]
 }
 ```
@@ -36,11 +36,11 @@ Example: `plugins/litruv-example-plugin.json`
 **Important:**
 - Filename must start with your username: `{username}-`
 - Plugin `id` must match filename (without .json)
-- `author` field must match your Gitea username
+- `author` field must match your GitHub username
 
 ### 2. Create a Pull Request
 
-Push your branch and create a PR. Gitea Actions will automatically:
+Push your branch and create a PR. GitHub Actions will automatically:
 - Validate your submission
 - Post approval comment if valid
 - Auto-merge and update the plugin index
@@ -58,6 +58,6 @@ You can only modify/remove plugins you authored.
 
 Plugin Host fetches from:
 ```
-http://synbox.ruv.wtf:8418/litruv/Plugin-Directory/raw/branch/main/plugins/index.json
+https://raw.githubusercontent.com/Paarrot/Plugin-Directory/main/plugins/index.json
 ```
 
