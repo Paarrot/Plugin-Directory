@@ -30,7 +30,6 @@ Example: `plugins/litruv-example-plugin.json`
 
 **Rules:**
 - All URLs must NOT end with `.git`
-- `repository` and `homepage` should point to your plugin repo (without .git)
 - `thumbnail` must be `thumbnail.png`, `thumbnail.jpg`, or `thumbnail.gif` (max 512x512, max 2MB)
 
 **Important:**
