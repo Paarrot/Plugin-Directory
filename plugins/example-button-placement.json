@@ -1,0 +1,11 @@
+{
+  "id": "button-placement-example-plugin",
+  "name": "Example Button Placement",
+  "version": "1.0.0",
+  "description": "Shows all the locations for buttons to go",
+  "author": "Paarrot Team",
+  "repository": "https://github.com/Paarrot/plugin-example-button-locations",
+  "homepage": "https://github.com/Paarrot/plugin-example-button-locations",
+  "thumbnail": "https://i.imgur.com/aHiJ8jP.png",
+  "tags": ["example"]
+}
