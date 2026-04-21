@@ -3,9 +3,6 @@
   "updatedAt": "2026-04-21T15:10:25.446Z",
   "plugins": [
     "example-button-placement",
-    "litruv-example-plugin",
-    "litruv-example-plugin-2",
-    "litruv-example-plugin-3",
     "litruv-klipy"
   ]
 }
