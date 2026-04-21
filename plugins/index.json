@@ -4,6 +4,7 @@
   "plugins": [
     "litruv-example-plugin",
     "litruv-example-plugin-2",
-    "litruv-example-plugin-3"
+    "litruv-example-plugin-3",
+    "litruv-klipy"
   ]
 }
