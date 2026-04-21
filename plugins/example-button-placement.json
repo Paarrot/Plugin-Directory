@@ -1,11 +1,11 @@
 {
-  "id": "button-placement-example-plugin",
-  "name": "Example Button Placement",
+  "id": "example-button-placement",
+  "name": "Button Location Showcase",
   "version": "1.0.0",
-  "description": "Shows all the locations for buttons to go",
+  "description": "Comprehensive demonstration of plugin buttons at ALL available UI locations with positioning and grouping examples",
   "author": "Paarrot Team",
   "repository": "https://github.com/Paarrot/plugin-example-button-locations",
   "homepage": "https://github.com/Paarrot/plugin-example-button-locations",
   "thumbnail": "https://i.imgur.com/aHiJ8jP.png",
-  "tags": ["example"]
+  "tags": ["demo", "showcase", "ui", "buttons", "locations"]
 }
