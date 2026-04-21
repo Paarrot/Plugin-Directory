@@ -254,11 +254,6 @@ for (const file of changedFiles) {
         try {
           new URL(plugin.thumbnail);
           
-          // Must be named thumbnail.png, thumbnail.jpg, or thumbnail.gif
-          if (!/\/thumbnail\.(png|jpg|gif)$/i.test(plugin.thumbnail)) {
-            errors.push(`❌ ${file}: Thumbnail must be named thumbnail.png, thumbnail.jpg, or thumbnail.gif`);
-          }
-          
           // Validate thumbnail meets requirements
           try {
             const thumbInfo = await validateThumbnail(plugin.thumbnail);
