@@ -1,0 +1,11 @@
+{
+  "id": "litruv-klipy",
+  "name": "Klipy Gif Search",
+  "version": "1.0.4",
+  "description": "Search GIFs with floating picker overlay above textbox",
+  "author": "litruv",
+  "repository": "https://github.com/litruv/paarrot-klipy-plugin",
+  "homepage": "https://github.com/litruv/paarrot-klipy-plugin",
+  "thumbnail": "https://i.imgur.com/DADe9S8.png",
+  "tags": ["gif", "search", "media", "fun", "images"]
+}
