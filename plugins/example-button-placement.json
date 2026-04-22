@@ -6,7 +6,7 @@
   "author": "Paarrot Team",
   "repository": "https://github.com/Paarrot/plugin-example-button-locations",
   "homepage": "https://github.com/Paarrot/plugin-example-button-locations",
-  "downloadUrl": "https://github.com/Paarrot/plugin-example-button-locations/releases/latest/download/plugin.zip",
+  "downloadUrl": "https://github.com/Paarrot/plugin-example-button-locations/archive/refs/heads/main.zip",
   "thumbnail": "https://i.imgur.com/aHiJ8jP.png",
   "tags": ["demo", "showcase", "ui", "buttons", "locations"]
 }

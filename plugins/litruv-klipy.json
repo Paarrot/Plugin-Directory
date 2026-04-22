@@ -6,7 +6,7 @@
   "author": "litruv",
   "repository": "https://github.com/litruv/paarrot-klipy-plugin",
   "homepage": "https://github.com/litruv/paarrot-klipy-plugin",
-  "downloadUrl": "https://github.com/litruv/paarrot-klipy-plugin/releases/latest/download/plugin.zip",
+  "downloadUrl": "https://github.com/litruv/paarrot-klipy-plugin/archive/refs/heads/main.zip",
   "thumbnail": "https://i.imgur.com/DADe9S8.png",
   "tags": ["gif", "search", "media", "fun", "images"]
 }
