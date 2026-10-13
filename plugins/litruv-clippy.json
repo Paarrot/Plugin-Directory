@@ -1,7 +1,7 @@
 {
   "id": "litruv-clippy",
   "name": "Clippy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Floating Clippy with real Microsoft Agent playback: frame lists that fold back, exit chains, states, and typing tips",
   "author": "litruv",
   "repository": "https://github.com/litruv/paarrot-clippy-plugin",
